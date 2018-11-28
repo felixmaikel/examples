@@ -1,0 +1,9 @@
+#Directories#
+target/
+bin/
+.metadata/
+.settings/
+
+#Files#
+.project
+.classpath
