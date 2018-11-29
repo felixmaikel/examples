@@ -8,5 +8,10 @@ public interface TranslateKey {
 	String CLOSED_TITLE_MENSAGE_KEY = "closed.title.mensage.key";
 	String YES_OPTION_TEXT = "yes.option.text";
 	String CANCEL_OPTION_TEXT = "cancel.option.text";
+	String USERNAME_COLUMN = "username.column.text";
+	String NAME_COLUMN = "name.column.text";
+	String LASTNAME_COLUMN = "lastname.column.text";
+	String STATUS_COLUMN = "status.column.text";
+	String MESSAGE_INDEX_BOUND = "message.index.bound";
 
 }
