@@ -5,16 +5,7 @@
     <artifactId>example-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>example-view</artifactId>
-  <name>Example View</name>
-  <description>Maven module that contains the implementation of the view layer</description>
-  
-  <dependencies>
-  	<dependency>
-  		<groupId>es.cqrs</groupId>
-  		<artifactId>example-core</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  </dependencies>
-  
+  <artifactId>example-core</artifactId>
+  <name>Example Core</name>
+  <description>Maven module that contains the application nucleo</description>
 </project>
