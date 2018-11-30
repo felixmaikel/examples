@@ -7,6 +7,7 @@ import java.awt.Insets;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
+import es.cqrs.view.components.forms.EditUserForm;
 import es.cqrs.view.components.tables.TableUser;
 import es.cqrs.view.events.ClosedApplicationListener;
 import es.cqrs.view.translate.Translate;
@@ -15,6 +16,7 @@ import es.cqrs.view.translate.TranslateKey;
 public class MainWindow extends JFrame {
 
 	private TableUser tableUser;
+	private EditUserForm editUserForm;
 	
 	public MainWindow() {
 		initialize();
@@ -28,6 +30,7 @@ public class MainWindow extends JFrame {
 		this.addWindowListener(new ClosedApplicationListener());
 		
 		initializeTable();
+		initializeEditForm();
 	}
 	
 	private void initializeTable() {
@@ -46,5 +49,22 @@ public class MainWindow extends JFrame {
 		constraints.insets = new Insets(5, 5, 5, 5);
 		
 		this.add(scroll, constraints);
+	}
+	
+	private void initializeEditForm() {
+		editUserForm = new EditUserForm();
+		
+		final GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridx = 1;
+		constraints.gridy = 0;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 1.0;
+		constraints.weighty = 0.0;
+		constraints.anchor = GridBagConstraints.NORTH;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.insets = new Insets(5, 5, 5, 5);
+		
+		this.add(editUserForm, constraints);
 	}
 }
