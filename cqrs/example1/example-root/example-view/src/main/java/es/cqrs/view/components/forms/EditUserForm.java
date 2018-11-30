@@ -10,9 +10,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import es.cqrs.core.model.UserData;
 import es.cqrs.view.components.combobox.StatusComboBox;
 import es.cqrs.view.components.forms.constraints.ConstraintsFactory;
 import es.cqrs.view.components.label.LabelBuilder;
+import es.cqrs.view.events.RemoveActionListener;
+import es.cqrs.view.events.UpdateUserActionListener;
 import es.cqrs.view.translate.Translate;
 import es.cqrs.view.translate.TranslateKey;
 
@@ -27,6 +30,7 @@ public class EditUserForm extends JPanel {
 	private JButton btnUpdateUser;
 	private JButton btnRemoveUser;
 	private JPanel btnPanel;
+	private UserData userData;
 	
 	public EditUserForm() {
 		super();
@@ -96,11 +100,16 @@ public class EditUserForm extends JPanel {
 	}
 	
 	private void addButtons() {
+		final UpdateUserActionListener updateActionListener = new UpdateUserActionListener(userData);
 		btnNewUser = createButton(Translate.getString(TranslateKey.BTN_NEW_USER_TEXT));
 		btnUpdateUser = createButton(Translate.getString(TranslateKey.BTN_UPDATE_USER_TEXT));
 		btnRemoveUser = createButton(Translate.getString(TranslateKey.BTN_REMOVE_USER_TEXT));
 		btnPanel = new JPanel();
 		btnPanel.setLayout(new GridBagLayout());
+		
+		btnNewUser.addActionListener(updateActionListener);
+		btnUpdateUser.addActionListener(updateActionListener);
+		btnRemoveUser.addActionListener(new RemoveActionListener(userData));
 		
 		final GridBagConstraints btnNewConstraints = new ConstraintsFactory.Builder().withGridX(0).withGridY(0).withGridWidth(1).withGridHeight(1)
 				.withWeightX(1.0).withWeightY(0.0).withInsets(new Insets(10, 10, 10, 10)).withAnchor(GridBagConstraints.EAST)
@@ -112,7 +121,7 @@ public class EditUserForm extends JPanel {
 				.withWeightX(1.0).withWeightY(0.0).withInsets(new Insets(10, 0, 10, 10)).withAnchor(GridBagConstraints.EAST)
 				.withFill(GridBagConstraints.NONE).build().buildConstraints();
 		final GridBagConstraints panelConstraints = new ConstraintsFactory.Builder().withGridX(1).withGridY(5).withGridWidth(1).withGridHeight(1)
-				.withWeightX(0.0).withWeightY(0.0).withInsets(new Insets(0, 0, 0, 0)).withFill(GridBagConstraints.NONE)
+				.withWeightX(0.0).withWeightY(0.0).withFill(GridBagConstraints.NONE)
 				.withAnchor(GridBagConstraints.EAST).build().buildConstraints();
 		
 		btnPanel.add(btnNewUser, btnNewConstraints);
@@ -131,7 +140,7 @@ public class EditUserForm extends JPanel {
 	}
 	
 	private JButton createButton(final String text) {
-		final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 11);
+		final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 14);
 		final JButton btn = new JButton(text);
 		btn.setFont(font);
 		

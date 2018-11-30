@@ -53,7 +53,7 @@ public class ConstraintsFactory {
 	}
 
 	public Insets getInsets() {
-		return insets;
+		return Optional.ofNullable(insets).orElse(new Insets(0, 0, 0, 0));
 	}
 
 	public int getFill() {
@@ -73,7 +73,7 @@ public class ConstraintsFactory {
 		constraints.weightx = weightX;
 		constraints.weighty = weightY;
 		constraints.fill = fill;
-		constraints.insets = insets;
+		constraints.insets = Optional.ofNullable(insets).orElse(new Insets(0, 0, 0, 0));
 		constraints.anchor = Optional.ofNullable(anchor).orElse(GridBagConstraints.CENTER).intValue();
 		return constraints;
 	}
