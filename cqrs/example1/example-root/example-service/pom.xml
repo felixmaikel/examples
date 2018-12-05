@@ -15,6 +15,12 @@
   		<artifactId>example-core</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+  	
+  	<dependency>
+  		<groupId>es.cqrs</groupId>
+  		<artifactId>example-repositories</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
   
 </project>

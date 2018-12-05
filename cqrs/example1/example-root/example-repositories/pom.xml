@@ -8,4 +8,20 @@
   <artifactId>example-repositories</artifactId>
   <name>Example Repositories</name>
   <description>This maven module contains the data access components</description>
+  
+  <dependencies>
+  	<dependency>
+  		<groupId>es.cqrs</groupId>
+  		<artifactId>example-core</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  	
+  	<dependency>
+  		<groupId>org.xerial</groupId>
+  		<artifactId>sqlite-jdbc</artifactId>
+  		<version>3.25.2</version>
+  	</dependency>
+  	
+  </dependencies>
+  
 </project>
