@@ -10,16 +10,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import es.cqrs.core.datasource.UserDataSource;
+import es.cqrs.core.model.StatusAccount;
 import es.cqrs.core.model.UserData;
 import es.cqrs.view.components.combobox.StatusComboBox;
 import es.cqrs.view.components.forms.constraints.ConstraintsFactory;
 import es.cqrs.view.components.label.LabelBuilder;
 import es.cqrs.view.events.RemoveActionListener;
 import es.cqrs.view.events.UpdateUserActionListener;
+import es.cqrs.view.events.UpdateViewListener;
 import es.cqrs.view.translate.Translate;
 import es.cqrs.view.translate.TranslateKey;
 
-public class EditUserForm extends JPanel {
+public class EditUserForm extends JPanel implements View {
 
 	private JTextField txtUsername;
 	private JTextField txtName;
@@ -31,10 +34,19 @@ public class EditUserForm extends JPanel {
 	private JButton btnRemoveUser;
 	private JPanel btnPanel;
 	private UserData userData;
+	private UpdateViewListener updateViewListener;
+	private UserDataSource userDataSource;
 	
-	public EditUserForm() {
+	public EditUserForm(final UserDataSource userDataSource, final UpdateViewListener updateViewListener) {
 		super();
+		this.updateViewListener = updateViewListener;
+		this.userDataSource = userDataSource;
 		initialize();
+	}
+	
+	public Object getObject() {
+		return new UserData(txtUsername.getText(), txtName.getText(), txtLastname.getText(), txtemail.getText(), 
+				(StatusAccount)cbStatus.getSelectedItem());
 	}
 	
 	private void initialize() {
@@ -100,7 +112,7 @@ public class EditUserForm extends JPanel {
 	}
 	
 	private void addButtons() {
-		final UpdateUserActionListener updateActionListener = new UpdateUserActionListener(userData);
+		final UpdateUserActionListener updateActionListener = new UpdateUserActionListener(this, updateViewListener, userDataSource);
 		btnNewUser = createButton(Translate.getString(TranslateKey.BTN_NEW_USER_TEXT));
 		btnUpdateUser = createButton(Translate.getString(TranslateKey.BTN_UPDATE_USER_TEXT));
 		btnRemoveUser = createButton(Translate.getString(TranslateKey.BTN_REMOVE_USER_TEXT));
@@ -154,4 +166,16 @@ public class EditUserForm extends JPanel {
 		
 		return label;
 	}
+
+	@Override
+	public void restored() {
+		txtUsername.setText("");
+		txtName.setText("");
+		txtLastname.setText("");
+		txtemail.setText("");
+		cbStatus.setSelectedIndex(0);
+	}
+	
+	
+	
 }

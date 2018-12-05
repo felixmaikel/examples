@@ -2,6 +2,7 @@ package es.cqrs.view.mock;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import es.cqrs.core.datasource.UserDataSource;
 import es.cqrs.core.model.UserData;
@@ -24,33 +25,37 @@ public class UserDataSourceMock implements UserDataSource{
 	}
 
 	public void addOrUpdateInfo(UserData userData) {
-		if(existsUser(userData)) {
-			updateUser(userData);
+		final Optional<UserData> user = existsUser(userData);
+		if(user.isPresent()) {
+			updateUser(user.get(), userData);
 		}else {
 			addUser(userData);
 		}
 	}
 
 	public void removeUserData(UserData userData) {
-		if(existsUser(userData)) {
-			final int position = position(userData);
-			repository.remove(position);
+		final Optional<UserData> user = existsUser(userData);
+		if(user.isPresent()) {
+			repository.remove(user.get());
 		}
 	}
 	
-	private boolean existsUser(final UserData userData) {
-		return false;
+	public UserData getUser(final int id) {
+		return null;
+	}
+	
+	private Optional<UserData> existsUser(final UserData userData) {
+		final Optional<UserData> obj = repository.stream().findFirst().filter(user -> user.getId() == userData.getId());
+		return obj;
 	}
 
-	private void updateUser(final UserData userData) {
-		
+	private void updateUser(final UserData currentUser, final UserData newUser) {
+		repository.remove(currentUser);
+		addUser(newUser);
 	}
 	
 	private void addUser(final UserData userData) {
-		
+		repository.add(userData);
 	}
 	
-	private int position(final UserData userData) {
-		return 0;
-	}
 }

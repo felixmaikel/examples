@@ -9,6 +9,8 @@ public interface UserDataSource {
 
 	UserResponse findAll();
 
+	UserData getUser(final int id);
+	
 	void addOrUpdateInfo(final UserData userData);
 
 	void removeUserData(UserData userData);

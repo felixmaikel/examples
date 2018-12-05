@@ -10,10 +10,11 @@ import es.cqrs.core.datasource.UserDataSource;
 import es.cqrs.core.exception.ApplicationException;
 import es.cqrs.core.model.UserData;
 import es.cqrs.core.response.UserResponse;
+import es.cqrs.view.events.UpdateViewListener;
 import es.cqrs.view.translate.Translate;
 import es.cqrs.view.translate.TranslateKey;
 
-public class TableUserModel implements TableModel {
+public class TableUserModel implements TableModel, UpdateViewListener {
 
 	private UserDataSource userDataSource;
 	private List<TableModelListener> modelListener;
@@ -52,7 +53,7 @@ public class TableUserModel implements TableModel {
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		
-		if(rowIndex < 0 || columnIndex >= response.getCount() || columnIndex < 0 || columnIndex >= columns.length) {
+		if(rowIndex < 0 || rowIndex >= response.getCount() || columnIndex < 0 || columnIndex >= columns.length) {
 			throw new ApplicationException(Translate.getString(TranslateKey.MESSAGE_INDEX_BOUND), new IndexOutOfBoundsException());
 		}
 		return obtainsValue(response.getUsers().get(rowIndex), columnIndex);
@@ -94,5 +95,10 @@ public class TableUserModel implements TableModel {
 			default:
 				return "";
 		}
+	}
+
+	@Override
+	public void refresh(UserData userData) {
+		response = userDataSource.findAll();
 	}
 }

@@ -21,5 +21,9 @@ public interface TranslateKey {
 	String BTN_NEW_USER_TEXT = "btn.new.user.text";
 	String BTN_UPDATE_USER_TEXT = "btn.update.user.text";
 	String BTN_REMOVE_USER_TEXT = "btn.remove.user.text";
+	String DIFFERENT_ARGUMENT_KEY = "different.argument.text";
+	String MESSAGE_ERROR_TITLE = "message.error.title";
+	String MESSAGE_VALIDATE_TITLE = "message.validate.title";
+	String INVALID_FIELD_TEXT = "invalid.field.text";
 
 }

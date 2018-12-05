@@ -7,9 +7,12 @@ import java.awt.Insets;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
+import es.cqrs.core.datasource.UserDataSource;
 import es.cqrs.view.components.forms.EditUserForm;
 import es.cqrs.view.components.tables.TableUser;
 import es.cqrs.view.events.ClosedApplicationListener;
+import es.cqrs.view.events.UpdateViewListener;
+import es.cqrs.view.mock.UserDataSourceMock;
 import es.cqrs.view.translate.Translate;
 import es.cqrs.view.translate.TranslateKey;
 
@@ -17,8 +20,11 @@ public class MainWindow extends JFrame {
 
 	private TableUser tableUser;
 	private EditUserForm editUserForm;
+	private UserDataSource userDataSource;
 	
 	public MainWindow() {
+		super();
+		userDataSource = new UserDataSourceMock();
 		initialize();
 	}
 	
@@ -34,7 +40,7 @@ public class MainWindow extends JFrame {
 	}
 	
 	private void initializeTable() {
-		tableUser = new TableUser();
+		tableUser = new TableUser(userDataSource);
 		final JScrollPane scroll = new JScrollPane();
 		scroll.setViewportView(tableUser);
 		
@@ -52,7 +58,7 @@ public class MainWindow extends JFrame {
 	}
 	
 	private void initializeEditForm() {
-		editUserForm = new EditUserForm();
+		editUserForm = new EditUserForm(userDataSource,(UpdateViewListener)tableUser.getModel());
 		
 		final GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridx = 1;
