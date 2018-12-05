@@ -10,7 +10,6 @@ import es.cqrs.core.exception.ApplicationException;
 import es.cqrs.core.model.UserData;
 import es.cqrs.service.service.UserService;
 import es.cqrs.view.events.UpdateViewListener;
-import es.cqrs.view.repositories.UserRepository;
 import es.cqrs.view.translate.Translate;
 import es.cqrs.view.translate.TranslateKey;
 

@@ -20,5 +20,6 @@
   	<module>example-view</module>
   	<module>example-core</module>
   	<module>example-service</module>
+  	<module>example-repositories</module>
   </modules>
 </project>
