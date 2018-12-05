@@ -10,7 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import es.cqrs.core.datasource.UserDataSource;
 import es.cqrs.core.model.StatusAccount;
 import es.cqrs.core.model.UserData;
 import es.cqrs.view.components.combobox.StatusComboBox;
@@ -35,12 +34,10 @@ public class EditUserForm extends JPanel implements View {
 	private JPanel btnPanel;
 	private UserData userData;
 	private UpdateViewListener updateViewListener;
-	private UserDataSource userDataSource;
 	
-	public EditUserForm(final UserDataSource userDataSource, final UpdateViewListener updateViewListener) {
+	public EditUserForm(final UpdateViewListener updateViewListener) {
 		super();
 		this.updateViewListener = updateViewListener;
-		this.userDataSource = userDataSource;
 		initialize();
 	}
 	
@@ -112,7 +109,7 @@ public class EditUserForm extends JPanel implements View {
 	}
 	
 	private void addButtons() {
-		final UpdateUserActionListener updateActionListener = new UpdateUserActionListener(this, updateViewListener, userDataSource);
+		final UpdateUserActionListener updateActionListener = new UpdateUserActionListener(this, updateViewListener);
 		btnNewUser = createButton(Translate.getString(TranslateKey.BTN_NEW_USER_TEXT));
 		btnUpdateUser = createButton(Translate.getString(TranslateKey.BTN_UPDATE_USER_TEXT));
 		btnRemoveUser = createButton(Translate.getString(TranslateKey.BTN_REMOVE_USER_TEXT));

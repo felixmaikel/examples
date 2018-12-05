@@ -6,24 +6,24 @@ import java.util.List;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
-import es.cqrs.core.datasource.UserDataSource;
 import es.cqrs.core.exception.ApplicationException;
 import es.cqrs.core.model.UserData;
-import es.cqrs.core.response.UserResponse;
+import es.cqrs.service.service.UserService;
 import es.cqrs.view.events.UpdateViewListener;
+import es.cqrs.view.repositories.UserRepository;
 import es.cqrs.view.translate.Translate;
 import es.cqrs.view.translate.TranslateKey;
 
 public class TableUserModel implements TableModel, UpdateViewListener {
 
-	private UserDataSource userDataSource;
+	private UserService userService;
 	private List<TableModelListener> modelListener;
 	private String [] columns = new String[]{Translate.getString(TranslateKey.USERNAME_COLUMN), Translate.getString(TranslateKey.NAME_COLUMN),
 			Translate.getString(TranslateKey.LASTNAME_COLUMN), Translate.getString(TranslateKey.STATUS_COLUMN)};
-	private UserResponse response;
+	private List<UserData> response;
 	
-	public TableUserModel(final UserDataSource userDataSource) {
-		this.userDataSource = userDataSource;
+	public TableUserModel(final UserService userService) {
+		this.userService = userService;
 		modelListener = new ArrayList<TableModelListener>();
 		refresh();
 	}
@@ -48,15 +48,15 @@ public class TableUserModel implements TableModel, UpdateViewListener {
 	}
 
 	public int getRowCount() {
-		return response.getCount();
+		return response.size();
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		
-		if(rowIndex < 0 || rowIndex >= response.getCount() || columnIndex < 0 || columnIndex >= columns.length) {
+		if(rowIndex < 0 || rowIndex >= response.size() || columnIndex < 0 || columnIndex >= columns.length) {
 			throw new ApplicationException(Translate.getString(TranslateKey.MESSAGE_INDEX_BOUND), new IndexOutOfBoundsException());
 		}
-		return obtainsValue(response.getUsers().get(rowIndex), columnIndex);
+		return obtainsValue(response.get(rowIndex), columnIndex);
 	}
 
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -68,17 +68,17 @@ public class TableUserModel implements TableModel, UpdateViewListener {
 	}
 
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		if(rowIndex < 0 || columnIndex >= response.getCount() || columnIndex < 0 || columnIndex >= columns.length) {
+		if(rowIndex < 0 || columnIndex >= response.size() || columnIndex < 0 || columnIndex >= columns.length) {
 			throw new ApplicationException(Translate.getString(TranslateKey.MESSAGE_INDEX_BOUND), new IndexOutOfBoundsException());
 		}
 		
 	}
 
 	private void refresh() {
-		response = new UserResponse(new ArrayList<UserData>(), 0);
+		response = new ArrayList<UserData>();
 		
-		if(userDataSource != null) {
-			response = userDataSource.findAll();
+		if(userService != null) {
+			response = userService.findAll();
 		}
 	}
 	
@@ -99,6 +99,6 @@ public class TableUserModel implements TableModel, UpdateViewListener {
 
 	@Override
 	public void refresh(UserData userData) {
-		response = userDataSource.findAll();
+		response = userService.findAll();
 	}
 }

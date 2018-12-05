@@ -5,9 +5,9 @@
     <artifactId>example-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>example-view</artifactId>
-  <name>Example View</name>
-  <description>Maven module that contains the implementation of the view layer</description>
+  <artifactId>example-service</artifactId>
+  <name>Example Service</name>
+  <description>This maven module contains all services that implement the application</description>
   
   <dependencies>
   	<dependency>
@@ -15,13 +15,6 @@
   		<artifactId>example-core</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
-  	
-  	<dependency>
-  		<groupId>es.cqrs</groupId>
-  		<artifactId>example-service</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  	
   </dependencies>
   
 </project>

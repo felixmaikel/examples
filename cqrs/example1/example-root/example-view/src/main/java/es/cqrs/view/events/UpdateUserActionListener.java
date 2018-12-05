@@ -1,30 +1,30 @@
 package es.cqrs.view.events;
 
-import es.cqrs.core.datasource.UserDataSource;
 import es.cqrs.core.exception.ApplicationException;
 import es.cqrs.core.exception.ValidateException;
 import es.cqrs.core.model.StatusAccount;
 import es.cqrs.core.model.UserData;
+import es.cqrs.service.service.UserService;
+import es.cqrs.service.service.impl.UserServiceImpl;
 import es.cqrs.view.components.forms.View;
 import es.cqrs.view.translate.Translate;
 import es.cqrs.view.translate.TranslateKey;
 
 public class UpdateUserActionListener extends BaseActionListener {
 
-	private UserDataSource userDataSource;
+	private UserService userService;
 	private UpdateViewListener updateViewListener;
 	
-	public UpdateUserActionListener(final View view, final UpdateViewListener updateViewListener, 
-			final UserDataSource userDataSource) {
+	public UpdateUserActionListener(final View view, final UpdateViewListener updateViewListener) {
 		super(view);
 		this.updateViewListener = updateViewListener;
-		this.userDataSource = userDataSource;
+		userService = new UserServiceImpl();
 	}
 
 	@Override
 	protected void execute(Object object) {
 		final UserData userData = (UserData)object;
-		userDataSource.addOrUpdateInfo(userData);
+		userService.addOrUpdateInfo(userData);
 	}
 
 	@Override

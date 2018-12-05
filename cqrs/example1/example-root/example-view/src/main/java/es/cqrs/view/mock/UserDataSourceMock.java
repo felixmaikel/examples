@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import es.cqrs.core.datasource.UserDataSource;
+import es.cqrs.core.model.StatusAccount;
 import es.cqrs.core.model.UserData;
-import es.cqrs.core.response.UserResponse;
 
 public class UserDataSourceMock implements UserDataSource{
 
@@ -14,14 +14,15 @@ public class UserDataSourceMock implements UserDataSource{
 	
 	public UserDataSourceMock() {
 		repository = new ArrayList<UserData>();
+		loadUsers();
 	}
 	
 	public int count() {
 		return repository.size();
 	}
 
-	public UserResponse findAll() {
-		return new UserResponse(repository, repository.size());
+	public List<UserData> findAll() {
+		return repository;
 	}
 
 	public void addOrUpdateInfo(UserData userData) {
@@ -42,6 +43,16 @@ public class UserDataSourceMock implements UserDataSource{
 	
 	public UserData getUser(final int id) {
 		return null;
+	}
+	
+	private void loadUsers() {
+		final UserData user1 = new UserData(1, "User 1", "User 1", "User 1", "User1@gmail.com", StatusAccount.ENABLE_ACCOUNT);
+		final UserData user2 = new UserData(2, "User 2", "User 2", "User 2", "User2@gmail.com", StatusAccount.LOCK_ACCOUNT);
+		final UserData user3 = new UserData(3, "User 3", "User 3", "User 3", "User3@gmail.com", StatusAccount.ENABLE_ACCOUNT);
+		
+		repository.add(user1);
+		repository.add(user2);
+		repository.add(user3);
 	}
 	
 	private Optional<UserData> existsUser(final UserData userData) {

@@ -19,5 +19,6 @@
   <modules>
   	<module>example-view</module>
   	<module>example-core</module>
+  	<module>example-service</module>
   </modules>
 </project>
