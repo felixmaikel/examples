@@ -1,7 +1,6 @@
 package es.cqrs.repositories.dao.impl;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,31 +9,15 @@ import java.util.List;
 
 import es.cqrs.core.exception.ApplicationException;
 import es.cqrs.repositories.dao.mapper.RowMapper;
+import es.cqrs.repositories.db.ConnectionManager;
+import es.cqrs.repositories.db.impl.ConnectionManagerImpl;
 
 public class BaseDao {
 
-	private static final String PATH_DRIVER = "org.sqlite.JDBC";
-	private static final String URL = "jdbc:sqlite:${path}\\userdb";
-	private Connection connection;
+	private ConnectionManager connectionManager;
 	
 	public BaseDao() {
-		
-	}
-	
-	protected Connection getConnection() {
-		try {
-			if(connection == null) {
-				Class.forName(PATH_DRIVER);
-				final String temp = System.getProperty("java.io.tmpdir");
-				final String url = URL.replace("${path}", temp);
-				connection = DriverManager.getConnection(url);
-			}
-			return connection;
-		}catch(ClassNotFoundException ex) {
-			throw new ApplicationException("Error to load driver class.", ex);
-		}catch(SQLException ex) {
-			throw new ApplicationException("Error to load data base.", ex);
-		}
+		connectionManager = ConnectionManagerImpl.getInstance();
 	}
 	
 	protected <T> T findOne(final String query, Object [] parameters, RowMapper<T> rowMapper) {
@@ -73,6 +56,7 @@ public class BaseDao {
 	
 	private PreparedStatement createStatement(final String query, final Object [] parameters) {
 		try {
+			final Connection connection = connectionManager.getConnection();
 			final PreparedStatement statement = connection.prepareStatement(query);
 			for(int i=0; i<parameters.length; i++) {
 				statement.setObject(i + 1, parameters[i]);
