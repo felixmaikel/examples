@@ -16,7 +16,7 @@ import es.cqrs.repositories.db.DataBaseManager;
 
 public class DataBaseManagerImpl implements DataBaseManager{
 	
-	private static final String SCHEMA_PATH = "schema/user-schema.sql";
+	private static final String SCHEMA_PATH = "/schema/user-schema.sql";
 	private ConnectionManager connectionManager;
 	
 	public DataBaseManagerImpl() {
@@ -35,7 +35,7 @@ public class DataBaseManagerImpl implements DataBaseManager{
 			final String query = loadScript();
 			final Connection connection = connectionManager.getConnection();
 			final PreparedStatement statement = connection.prepareStatement(query);
-			statement.executeQuery();
+			statement.execute();
 		}catch(SQLException ex) {
 			throw new ApplicationException("Error to execute table sql file.", ex);
 		}
@@ -45,9 +45,11 @@ public class DataBaseManagerImpl implements DataBaseManager{
 		try {
 			final Path path = Paths.get(getClass().getResource(SCHEMA_PATH).toURI());
 			final List<String> lines = Files.readAllLines(path);
-			final StringBuilder stringBuilder = new StringBuilder();
+			StringBuilder stringBuilder = new StringBuilder();
 			
-			lines.stream().map(item -> stringBuilder.append(item));
+			for (String string : lines) {
+				stringBuilder.append(string);
+			}
 			
 			return stringBuilder.toString();
 		}catch(URISyntaxException ex) {

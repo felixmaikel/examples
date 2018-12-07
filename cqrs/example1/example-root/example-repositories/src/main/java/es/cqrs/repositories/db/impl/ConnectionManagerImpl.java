@@ -1,6 +1,5 @@
 package es.cqrs.repositories.db.impl;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -12,6 +11,7 @@ import es.cqrs.repositories.db.ConnectionManager;
 
 public class ConnectionManagerImpl implements ConnectionManager {
 
+	private static final String FILE_NAME = "userdb.sqlite";
 	private static final String PATH_DRIVER = "org.sqlite.JDBC";
 	private static final String URL = "jdbc:sqlite:${path}\\userdb.sqlite";
 	private Connection connection;
@@ -46,8 +46,7 @@ public class ConnectionManagerImpl implements ConnectionManager {
 	
 	public boolean existsDataBase() {
 		final String temp = System.getProperty("java.io.tmpdir");
-		final String url = URL.replace("${path}", temp);
-		return Files.exists(Paths.get(new File(url).toURI()));
+		return Files.exists(Paths.get(temp, FILE_NAME));
 	}
 
 }
