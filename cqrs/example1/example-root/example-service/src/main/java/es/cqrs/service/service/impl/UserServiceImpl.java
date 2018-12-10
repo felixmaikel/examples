@@ -4,11 +4,16 @@ import java.util.List;
 
 import es.cqrs.core.model.UserData;
 import es.cqrs.repositories.repository.UserRepository;
+import es.cqrs.repositories.repository.impl.UserRepositoryImpl;
 import es.cqrs.service.service.UserService;
 
 public class UserServiceImpl implements UserService {
 
 	private UserRepository userRepository;
+	
+	public UserServiceImpl() {
+		userRepository = new UserRepositoryImpl();
+	}
 	
 	public List<UserData> findAll() {
 		return userRepository.findAll();
