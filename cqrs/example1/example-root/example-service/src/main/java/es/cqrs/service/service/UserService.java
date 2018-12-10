@@ -8,6 +8,6 @@ public interface UserService {
 
 	List<UserData> findAll();
 
-	void addOrUpdateInfo(UserData userData);
+	void addOrUpdateInfo(final UserData userData);
 
 }

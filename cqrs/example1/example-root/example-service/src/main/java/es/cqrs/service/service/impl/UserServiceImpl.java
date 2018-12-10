@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findAll();
 	}
 
-	public void addOrUpdateInfo(UserData userData) {
+	public void addOrUpdateInfo(final UserData userData) {
 		if(userData.getId() == -1) {
 			userRepository.addUser(userData);
 		}else {

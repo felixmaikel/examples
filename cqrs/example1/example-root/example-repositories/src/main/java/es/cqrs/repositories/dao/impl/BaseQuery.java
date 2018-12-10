@@ -12,11 +12,11 @@ import es.cqrs.repositories.dao.mapper.RowMapper;
 import es.cqrs.repositories.db.ConnectionManager;
 import es.cqrs.repositories.db.impl.ConnectionManagerImpl;
 
-public class BaseDao {
+public class BaseQuery {
 
 	private ConnectionManager connectionManager;
 	
-	public BaseDao() {
+	public BaseQuery() {
 		connectionManager = ConnectionManagerImpl.getInstance();
 	}
 	

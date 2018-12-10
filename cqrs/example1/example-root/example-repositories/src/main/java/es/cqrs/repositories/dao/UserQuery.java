@@ -4,7 +4,7 @@ import java.util.List;
 
 import es.cqrs.core.model.UserData;
 
-public interface UserDao {
+public interface UserQuery {
 
 	List<UserData> findAll();
 
