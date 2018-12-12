@@ -1,6 +1,8 @@
 package es.cqrs.core.model;
 
-public class UserData {
+import java.io.Serializable;
+
+public class UserData implements Serializable {
 
 	private int id;
 	private String username;
@@ -10,15 +12,16 @@ public class UserData {
 	private StatusAccount status;
 	
 	public UserData(final String username, final String name, final String lastname, final String email, final StatusAccount status) {
+		this(-1, username, name, lastname, email, status);
+		
+	}
+	
+	public UserData(final int id, final String username, final String name, final String lastname, final String email, final StatusAccount status) {
 		this.username = username;
 		this.name = name;
 		this.lastname = lastname;
 		this.email = email;
 		this.status = status;
-	}
-	
-	public UserData(final int id, final String username, final String name, final String lastname, final String email, final StatusAccount status) {
-		this(username, name, lastname, email, status);
 		this.id = id;
 	}
 	
