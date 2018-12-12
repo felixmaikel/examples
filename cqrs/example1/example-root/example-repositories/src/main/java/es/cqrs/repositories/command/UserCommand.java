@@ -1,5 +1,6 @@
 package es.cqrs.repositories.command;
 
+import es.cqrs.core.command.BaseCommand;
 import es.cqrs.core.model.UserData;
 
 public class UserCommand extends BaseCommand<String, UserData> {

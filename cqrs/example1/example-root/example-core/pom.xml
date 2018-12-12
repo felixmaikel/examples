@@ -8,4 +8,12 @@
   <artifactId>example-core</artifactId>
   <name>Example Core</name>
   <description>Maven module that contains the application nucleo</description>
+  
+  <dependencies>
+	  <dependency>
+	  		<groupId>org.apache.kafka</groupId>
+	  		<artifactId>kafka-clients</artifactId>
+	  		<version>2.1.0</version>
+	  </dependency>
+  </dependencies>
 </project>

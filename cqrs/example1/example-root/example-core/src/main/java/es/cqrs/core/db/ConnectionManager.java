@@ -1,4 +1,4 @@
-package es.cqrs.repositories.db;
+package es.cqrs.core.db;
 
 import java.sql.Connection;
 

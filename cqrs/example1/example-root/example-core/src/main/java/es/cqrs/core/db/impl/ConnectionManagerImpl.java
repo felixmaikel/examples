@@ -1,4 +1,4 @@
-package es.cqrs.repositories.db.impl;
+package es.cqrs.core.db.impl;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -6,8 +6,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import es.cqrs.core.db.ConnectionManager;
 import es.cqrs.core.exception.ApplicationException;
-import es.cqrs.repositories.db.ConnectionManager;
 
 public class ConnectionManagerImpl implements ConnectionManager {
 

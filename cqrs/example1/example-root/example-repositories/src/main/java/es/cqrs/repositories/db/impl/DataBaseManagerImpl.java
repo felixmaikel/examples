@@ -10,8 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+import es.cqrs.core.db.ConnectionManager;
+import es.cqrs.core.db.impl.ConnectionManagerImpl;
 import es.cqrs.core.exception.ApplicationException;
-import es.cqrs.repositories.db.ConnectionManager;
 import es.cqrs.repositories.db.DataBaseManager;
 
 public class DataBaseManagerImpl implements DataBaseManager{

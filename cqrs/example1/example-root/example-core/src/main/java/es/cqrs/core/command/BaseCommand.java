@@ -1,4 +1,4 @@
-package es.cqrs.repositories.command;
+package es.cqrs.core.command;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
