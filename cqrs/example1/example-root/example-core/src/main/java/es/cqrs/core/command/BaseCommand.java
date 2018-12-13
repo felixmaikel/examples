@@ -1,37 +1,19 @@
 package es.cqrs.core.command;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Properties;
-
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
-import es.cqrs.core.exception.ApplicationException;
+import es.cqrs.core.actor.KafkaActor;
 
-public class BaseCommand<K,T> {
+public class BaseCommand<K,T> extends KafkaActor {
 
 	protected static final String topic = "test";
-	private static final String PROPERTIES_FILE = "/kafka/config.properties";
-	private Properties properties;
 	
 	public BaseCommand() {
-		loadProperties();
+		super();
 	}
 	
-	private void loadProperties() {
-		try {
-			final Path path = Paths.get(getClass().getResource(PROPERTIES_FILE).toURI());
-			properties = new Properties();
-			properties.load(Files.newInputStream(path));
-		}catch(URISyntaxException | IOException ex) {
-			throw new ApplicationException("Error to load properties kafka connection.", ex);
-		}
-	}
 	
 	protected void send(final String topic, K key, T object) {
 		final Producer<K, T> producer = new KafkaProducer<>(properties);
