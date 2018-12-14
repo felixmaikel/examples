@@ -8,7 +8,7 @@ public class UserDataDaoImpl extends BaseDao implements UserDataDao {
 	public void update(final UserData userData) {
 		final Object [] parameters = new Object[]{userData.getUsername(), userData.getName(), userData.getLastname(),
 				userData.getEmail(), userData.getStatus().getId(), userData.getId()};
-		final String query = "UPDATE SET USERNAME = ?, NAME = ?, LASTNAME = ?, EMAIL = ?, STATUS = ? FORM USER_TB WHERE ID = ?";
+		final String query = "UPDATE USER_TB SET USERNAME = ?, NAME = ?, LASTNAME = ?, EMAIL = ?, STATUS = ? WHERE ID = ?";
 		execute(query, parameters);
 	}
 
