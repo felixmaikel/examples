@@ -16,12 +16,13 @@ import es.cqrs.view.components.combobox.StatusComboBox;
 import es.cqrs.view.components.forms.constraints.ConstraintsFactory;
 import es.cqrs.view.components.label.LabelBuilder;
 import es.cqrs.view.events.RemoveActionListener;
+import es.cqrs.view.events.RestoreActionListener;
 import es.cqrs.view.events.UpdateUserActionListener;
 import es.cqrs.view.events.UpdateViewListener;
 import es.cqrs.view.translate.Translate;
 import es.cqrs.view.translate.TranslateKey;
 
-public class EditUserForm extends JPanel implements View {
+public class EditUserForm extends JPanel implements ViewObserver {
 
 	private JTextField txtUsername;
 	private JTextField txtName;
@@ -31,6 +32,7 @@ public class EditUserForm extends JPanel implements View {
 	private JButton btnNewUser;
 	private JButton btnUpdateUser;
 	private JButton btnRemoveUser;
+	private JButton btnRestore;
 	private JPanel btnPanel;
 	private UserData userData;
 	private UpdateViewListener updateViewListener;
@@ -42,6 +44,10 @@ public class EditUserForm extends JPanel implements View {
 	}
 	
 	public Object getObject() {
+		if(userData != null) {
+			return new UserData(userData.getId(), txtUsername.getText(), txtName.getText(), txtLastname.getText(), txtemail.getText(), 
+					(StatusAccount)cbStatus.getSelectedItem());
+		}
 		return new UserData(txtUsername.getText(), txtName.getText(), txtLastname.getText(), txtemail.getText(), 
 				(StatusAccount)cbStatus.getSelectedItem());
 	}
@@ -110,15 +116,18 @@ public class EditUserForm extends JPanel implements View {
 	
 	private void addButtons() {
 		final UpdateUserActionListener updateActionListener = new UpdateUserActionListener(this, updateViewListener);
+		final RestoreActionListener restoreActionListener = new RestoreActionListener(this);
 		btnNewUser = createButton(Translate.getString(TranslateKey.BTN_NEW_USER_TEXT));
 		btnUpdateUser = createButton(Translate.getString(TranslateKey.BTN_UPDATE_USER_TEXT));
 		btnRemoveUser = createButton(Translate.getString(TranslateKey.BTN_REMOVE_USER_TEXT));
+		btnRestore = createButton(Translate.getString(TranslateKey.BTN_RESTORE_TEXT));
 		btnPanel = new JPanel();
 		btnPanel.setLayout(new GridBagLayout());
 		
 		btnNewUser.addActionListener(updateActionListener);
 		btnUpdateUser.addActionListener(updateActionListener);
 		btnRemoveUser.addActionListener(new RemoveActionListener(userData));
+		btnRestore.addActionListener(restoreActionListener);
 		
 		final GridBagConstraints btnNewConstraints = new ConstraintsFactory.Builder().withGridX(0).withGridY(0).withGridWidth(1).withGridHeight(1)
 				.withWeightX(1.0).withWeightY(0.0).withInsets(new Insets(10, 10, 10, 10)).withAnchor(GridBagConstraints.EAST)
@@ -129,6 +138,9 @@ public class EditUserForm extends JPanel implements View {
 		final GridBagConstraints btnRemoveConstraints = new ConstraintsFactory.Builder().withGridX(2).withGridY(0).withGridWidth(1).withGridHeight(1)
 				.withWeightX(1.0).withWeightY(0.0).withInsets(new Insets(10, 0, 10, 10)).withAnchor(GridBagConstraints.EAST)
 				.withFill(GridBagConstraints.NONE).build().buildConstraints();
+		final GridBagConstraints btnRestoreConstraints = new ConstraintsFactory.Builder().withGridX(3).withGridY(0).withGridWidth(1).withGridHeight(1)
+				.withWeightX(1.0).withWeightY(0.0).withInsets(new Insets(10, 0, 10, 10)).withAnchor(GridBagConstraints.EAST)
+				.withFill(GridBagConstraints.NONE).build().buildConstraints();
 		final GridBagConstraints panelConstraints = new ConstraintsFactory.Builder().withGridX(1).withGridY(5).withGridWidth(1).withGridHeight(1)
 				.withWeightX(0.0).withWeightY(0.0).withFill(GridBagConstraints.NONE)
 				.withAnchor(GridBagConstraints.EAST).build().buildConstraints();
@@ -136,6 +148,7 @@ public class EditUserForm extends JPanel implements View {
 		btnPanel.add(btnNewUser, btnNewConstraints);
 		btnPanel.add(btnUpdateUser, btnUpdateConstraints);
 		btnPanel.add(btnRemoveUser, btnRemoveConstraints);
+		btnPanel.add(btnRestore, btnRestoreConstraints);
 		
 		this.add(btnPanel, panelConstraints);
 	}
@@ -170,7 +183,22 @@ public class EditUserForm extends JPanel implements View {
 		txtName.setText("");
 		txtLastname.setText("");
 		txtemail.setText("");
-		cbStatus.setSelectedIndex(0);
+		cbStatus.setSelectedItem(StatusAccount.NONE);
+		userData = null;
+		btnNewUser.setEnabled(true);
+	}
+
+	@Override
+	public void notifyChange(final Object object) {
+		if(object instanceof UserData) {
+			userData = (UserData)object;
+			txtUsername.setText(userData.getUsername());
+			txtName.setText(userData.getName());
+			txtLastname.setText(userData.getLastname());
+			txtemail.setText(userData.getEmail());
+			cbStatus.setSelectedItem(userData.getStatus());
+			btnNewUser.setEnabled(false);
+		}
 	}
 	
 	

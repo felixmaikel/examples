@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.ComboBoxModel;
 import javax.swing.event.ListDataListener;
 
+import es.cqrs.core.exception.ApplicationException;
 import es.cqrs.core.model.StatusAccount;
 
 public class StatusComboBoxModel implements ComboBoxModel<StatusAccount>{
@@ -20,7 +21,7 @@ public class StatusComboBoxModel implements ComboBoxModel<StatusAccount>{
 		status.add(StatusAccount.NONE);
 		status.add(StatusAccount.ENABLE_ACCOUNT);
 		status.add(StatusAccount.LOCK_ACCOUNT);
-		selectItem = StatusAccount.NONE;
+		selectItem = status.get(0);
 	}
 	
 	public void addListDataListener(ListDataListener l) {
@@ -44,7 +45,10 @@ public class StatusComboBoxModel implements ComboBoxModel<StatusAccount>{
 	}
 
 	public void setSelectedItem(Object anItem) {
-		this.selectItem = (StatusAccount)anItem;
+		if(!(anItem instanceof StatusAccount)) {
+			throw new ApplicationException("The status value is incorrect.", new ClassCastException());
+		}
+		this.selectItem = status.get(((StatusAccount)anItem).getId());
 	}
 
 }

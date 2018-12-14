@@ -32,7 +32,7 @@ public class TableUserModel implements TableModel, UpdateViewListener {
 	}
 
 	public Class<?> getColumnClass(int columnIndex) {
-		return String.class;
+		return UserModel.class;
 	}
 
 	public int getColumnCount() {
@@ -84,13 +84,13 @@ public class TableUserModel implements TableModel, UpdateViewListener {
 	private Object obtainsValue(final UserData userData, final int columnIndex) {
 		switch(columnIndex) {
 			case 0:
-				return userData.getUsername();
+				return new UserModel(userData.getUsername(), userData);
 			case 1:
-				return userData.getName();
+				return new UserModel(userData.getName(), userData);
 			case 2:
-				return userData.getLastname();
+				return new UserModel(userData.getLastname(), userData);
 			case 3:
-				return userData.getStatus();
+				return new UserModel(userData.getStatus().getText(), userData);
 			default:
 				return "";
 		}
@@ -99,5 +99,12 @@ public class TableUserModel implements TableModel, UpdateViewListener {
 	@Override
 	public void refresh(UserData userData) {
 		response = userService.findAll();
+	}
+
+	public Object getSelectedObject(final int index) {
+		if(index < 0 || index >= response.size()) {
+			throw new ApplicationException(Translate.getString(TranslateKey.MESSAGE_INDEX_BOUND), new IndexOutOfBoundsException());
+		}
+		return response.get(index);
 	}
 }

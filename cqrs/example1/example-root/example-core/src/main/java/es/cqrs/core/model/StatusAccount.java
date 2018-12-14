@@ -20,10 +20,20 @@ public enum StatusAccount {
 	public String getText() {
 		return text;
 	}
-
+	
 	@Override
 	public String toString() {
 		return getText();
+	}
+
+	public static StatusAccount value(final int status) {
+		StatusAccount statusAccount = StatusAccount.NONE;
+		for(StatusAccount account : values()) {
+			if(account.getId() == status) {
+				statusAccount = account;
+			}
+		}
+		return statusAccount;
 	}
 	
 }

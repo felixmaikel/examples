@@ -7,6 +7,7 @@ import java.awt.Insets;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
+import es.cqrs.view.components.NotifyChange;
 import es.cqrs.view.components.forms.EditUserForm;
 import es.cqrs.view.components.tables.TableUser;
 import es.cqrs.view.events.ClosedApplicationListener;
@@ -18,9 +19,11 @@ public class MainWindow extends JFrame {
 
 	private TableUser tableUser;
 	private EditUserForm editUserForm;
+	private NotifyChange notifyChange;
 	
 	public MainWindow() {
 		super();
+		notifyChange = NotifyChange.getInstance();
 		initialize();
 	}
 	
@@ -37,6 +40,7 @@ public class MainWindow extends JFrame {
 	
 	private void initializeTable() {
 		tableUser = new TableUser();
+		notifyChange.addSelectObserver(tableUser);
 		final JScrollPane scroll = new JScrollPane();
 		scroll.setViewportView(tableUser);
 		
@@ -55,6 +59,7 @@ public class MainWindow extends JFrame {
 	
 	private void initializeEditForm() {
 		editUserForm = new EditUserForm((UpdateViewListener)tableUser.getModel());
+		notifyChange.addObserver(editUserForm);
 		
 		final GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridx = 1;

@@ -14,14 +14,20 @@ public class UserRowMapper implements RowMapper<UserData> {
 	private static String NAME = "NAME";
 	private static String LASTNAME = "LASTNAME";
 	private static String EMAIL = "EMAIL";
+	private static String STATUS = "STATUS";
 	
 	public UserData toMapper(final ResultSet resultSet) {
 		try {
+			final int status = resultSet.getInt(STATUS);
 			return new UserData(resultSet.getInt(ID), resultSet.getString(USERNAME), resultSet.getString(NAME), 
-					resultSet.getString(LASTNAME), resultSet.getString(EMAIL), StatusAccount.ENABLE_ACCOUNT);
+					resultSet.getString(LASTNAME), resultSet.getString(EMAIL), definedStatus(status));
 		}catch(SQLException ex) {
 			throw new ApplicationException("Error to the execute query.", ex);
 		}
 	}
 
+	private StatusAccount definedStatus(final int status) {
+		final StatusAccount statusAccount = StatusAccount.value(status);
+		return statusAccount;
+	}
 }

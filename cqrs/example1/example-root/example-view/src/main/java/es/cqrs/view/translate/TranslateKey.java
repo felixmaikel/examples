@@ -25,5 +25,6 @@ public interface TranslateKey {
 	String MESSAGE_ERROR_TITLE = "message.error.title";
 	String MESSAGE_VALIDATE_TITLE = "message.validate.title";
 	String INVALID_FIELD_TEXT = "invalid.field.text";
+	String BTN_RESTORE_TEXT = "btn.restore.text";
 
 }
