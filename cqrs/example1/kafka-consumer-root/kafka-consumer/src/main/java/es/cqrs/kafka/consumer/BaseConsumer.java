@@ -10,6 +10,7 @@ import org.apache.kafka.common.errors.WakeupException;
 
 import es.cqrs.core.actor.KafkaActor;
 import es.cqrs.core.exception.ApplicationException;
+import es.cqrs.kafka.producer.NotifyProducer;
 
 public abstract class BaseConsumer<K, T> extends KafkaActor implements Runnable {
 
@@ -32,6 +33,7 @@ public abstract class BaseConsumer<K, T> extends KafkaActor implements Runnable 
 				final ConsumerRecords<K, T> records = consumer.poll(Duration.ofMillis(10000));
 				if(!records.isEmpty()) {
 					executeConsumer(records);
+					notifyModelChange();
 				}
 			}
 			
@@ -50,5 +52,10 @@ public abstract class BaseConsumer<K, T> extends KafkaActor implements Runnable 
 
 	public String getName() {
 		return name;
+	}
+	
+	private void notifyModelChange() {
+		final NotifyProducer producer = new NotifyProducer();
+		producer.send();
 	}
 }

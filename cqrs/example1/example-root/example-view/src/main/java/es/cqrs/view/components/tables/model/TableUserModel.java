@@ -3,6 +3,7 @@ package es.cqrs.view.components.tables.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
@@ -73,11 +74,15 @@ public class TableUserModel implements TableModel, UpdateViewListener {
 		
 	}
 
-	private void refresh() {
+	public void refresh() {
 		response = new ArrayList<UserData>();
 		
 		if(userService != null) {
 			response = userService.findAll();
+			modelListener.stream().forEach(listener -> {
+				final TableModelEvent event = new TableModelEvent(this);
+				listener.tableChanged(event);
+			});
 		}
 	}
 	

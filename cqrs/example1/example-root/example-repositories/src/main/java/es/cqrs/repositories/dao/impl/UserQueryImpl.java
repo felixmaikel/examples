@@ -9,7 +9,7 @@ import es.cqrs.repositories.dao.mapper.UserRowMapper;
 public class UserQueryImpl extends BaseQuery implements UserQuery {
 
 	public List<UserData> findAll() {
-		final String query = "SELECT * FROM USER_TB";
+		final String query = "SELECT * FROM USER_TB ORDER BY ID ACS";
 		return list(query, new UserRowMapper());
 	}
 
