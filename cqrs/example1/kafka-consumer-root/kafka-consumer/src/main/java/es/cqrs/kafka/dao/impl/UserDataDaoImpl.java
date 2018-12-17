@@ -19,4 +19,11 @@ public class UserDataDaoImpl extends BaseDao implements UserDataDao {
 		execute(query, parameters);
 	}
 
+	@Override
+	public void remove(final UserData userData) {
+		final Object [] parameters = new Object[]{userData.getId()};
+		final String query = "DELETE FROM USER_TB WHERE ID = ?";
+		execute(query, parameters);
+	}
+
 }

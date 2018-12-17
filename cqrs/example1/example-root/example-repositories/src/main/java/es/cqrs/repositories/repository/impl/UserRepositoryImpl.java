@@ -14,6 +14,8 @@ public class UserRepositoryImpl implements UserRepository {
 	private static final String UPDATE_KEY = "update.user";
 	private static final String CREATE_USER = "create";
 	private static final String CREATE_KEY = "create.user";
+	private static final String DELETE_USER = "delete";
+	private static final String DELETE_KEY = "delete.user";
 	private UserQuery userQuery;
 	
 	public UserRepositoryImpl() {
@@ -31,6 +33,12 @@ public class UserRepositoryImpl implements UserRepository {
 
 	public void updateUser(final UserData userData) {
 		final UserCommand userCommand = new UserCommand.Builder().withTopic(UPDATE_USER).withKey(UPDATE_KEY).withDto(userData).build();
+		userCommand.send();
+	}
+
+	@Override
+	public void remove(final UserData userData) {
+		final UserCommand userCommand = new UserCommand.Builder().withTopic(DELETE_USER).withKey(DELETE_KEY).withDto(userData).build();
 		userCommand.send();
 	}
 

@@ -27,4 +27,9 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
+	public void remove(final UserData userData) {
+		userRepository.remove(userData);
+	}
+
 }

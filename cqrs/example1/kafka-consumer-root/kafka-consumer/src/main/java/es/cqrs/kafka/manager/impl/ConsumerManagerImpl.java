@@ -6,6 +6,7 @@ import java.util.List;
 import es.cqrs.core.model.UserData;
 import es.cqrs.kafka.consumer.BaseConsumer;
 import es.cqrs.kafka.consumer.UserAddConsumer;
+import es.cqrs.kafka.consumer.UserRemoveConsumer;
 import es.cqrs.kafka.consumer.UserUpdateConsumer;
 import es.cqrs.kafka.manager.ConsumerManager;
 
@@ -31,5 +32,6 @@ public class ConsumerManagerImpl implements ConsumerManager {
 	private void loadConsumers() {
 		consumers.add(new UserAddConsumer());
 		consumers.add(new UserUpdateConsumer());
+		consumers.add(new UserRemoveConsumer());
 	}
 }

@@ -12,4 +12,6 @@ public interface UserRepository {
 
 	void updateUser(final UserData userData);
 
+	void remove(final UserData userData);
+
 }

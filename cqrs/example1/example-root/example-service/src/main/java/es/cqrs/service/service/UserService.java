@@ -10,4 +10,6 @@ public interface UserService {
 
 	void addOrUpdateInfo(final UserData userData);
 
+	void remove(final UserData userData);
+
 }

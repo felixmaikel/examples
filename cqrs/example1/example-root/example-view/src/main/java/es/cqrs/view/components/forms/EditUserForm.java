@@ -115,7 +115,7 @@ public class EditUserForm extends JPanel implements ViewObserver {
 	}
 	
 	private void addButtons() {
-		final UpdateUserActionListener updateActionListener = new UpdateUserActionListener(this, updateViewListener);
+		final UpdateUserActionListener updateActionListener = new UpdateUserActionListener(this);
 		final RestoreActionListener restoreActionListener = new RestoreActionListener(this);
 		btnNewUser = createButton(Translate.getString(TranslateKey.BTN_NEW_USER_TEXT));
 		btnUpdateUser = createButton(Translate.getString(TranslateKey.BTN_UPDATE_USER_TEXT));
@@ -126,8 +126,12 @@ public class EditUserForm extends JPanel implements ViewObserver {
 		
 		btnNewUser.addActionListener(updateActionListener);
 		btnUpdateUser.addActionListener(updateActionListener);
-		btnRemoveUser.addActionListener(new RemoveActionListener(userData));
+		btnRemoveUser.addActionListener(new RemoveActionListener(this));
 		btnRestore.addActionListener(restoreActionListener);
+		
+		btnRemoveUser.setEnabled(false);
+		btnUpdateUser.setEnabled(false);
+		btnRestore.setEnabled(false);
 		
 		final GridBagConstraints btnNewConstraints = new ConstraintsFactory.Builder().withGridX(0).withGridY(0).withGridWidth(1).withGridHeight(1)
 				.withWeightX(1.0).withWeightY(0.0).withInsets(new Insets(10, 10, 10, 10)).withAnchor(GridBagConstraints.EAST)
@@ -186,6 +190,9 @@ public class EditUserForm extends JPanel implements ViewObserver {
 		cbStatus.setSelectedItem(StatusAccount.NONE);
 		userData = null;
 		btnNewUser.setEnabled(true);
+		btnRemoveUser.setEnabled(false);
+		btnUpdateUser.setEnabled(false);
+		btnRestore.setEnabled(false);
 	}
 
 	@Override
@@ -198,6 +205,9 @@ public class EditUserForm extends JPanel implements ViewObserver {
 			txtemail.setText(userData.getEmail());
 			cbStatus.setSelectedItem(userData.getStatus());
 			btnNewUser.setEnabled(false);
+			btnRemoveUser.setEnabled(true);
+			btnUpdateUser.setEnabled(true);
+			btnRestore.setEnabled(true);
 		}
 	}
 	

@@ -1,26 +1,23 @@
 package es.cqrs.view.events;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.sql.DataSource;
-
-import es.cqrs.core.datasource.UserDataSource;
 import es.cqrs.core.model.UserData;
+import es.cqrs.service.service.UserService;
+import es.cqrs.service.service.impl.UserServiceImpl;
+import es.cqrs.view.components.forms.View;
 
-public class RemoveActionListener implements ActionListener {
+public class RemoveActionListener extends BaseActionListener {
 
-	private UserDataSource userDataSource;
-	private UserData userData;
+	private UserService userService;
 	
-	public RemoveActionListener(final UserData userData) {
-		this.userData = userData;
+	public RemoveActionListener(final View view) {
+		super(view);
+		userService = new UserServiceImpl();
 	}
-	
-	public void actionPerformed(ActionEvent e) {
-		if(userData != null) {
-			userDataSource.removeUserData(userData);
-		}
+
+	@Override
+	protected void execute(Object object) {
+		final UserData userData = (UserData)object;
+		userService.remove(userData);
 	}
 
 }

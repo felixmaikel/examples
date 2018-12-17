@@ -4,8 +4,10 @@ import es.cqrs.core.model.UserData;
 
 public interface UserDataDao {
 
-	void update(UserData userData);
+	void update(final UserData userData);
 
-	void add(UserData userData);
+	void add(final UserData userData);
+
+	void remove(final UserData userData);
 
 }

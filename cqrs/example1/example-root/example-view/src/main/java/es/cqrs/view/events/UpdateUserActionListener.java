@@ -13,11 +13,9 @@ import es.cqrs.view.translate.TranslateKey;
 public class UpdateUserActionListener extends BaseActionListener {
 
 	private UserService userService;
-	private UpdateViewListener updateViewListener;
 	
-	public UpdateUserActionListener(final View view, final UpdateViewListener updateViewListener) {
+	public UpdateUserActionListener(final View view) {
 		super(view);
-		this.updateViewListener = updateViewListener;
 		userService = new UserServiceImpl();
 	}
 
