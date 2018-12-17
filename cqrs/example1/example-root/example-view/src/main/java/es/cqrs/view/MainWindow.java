@@ -58,7 +58,7 @@ public class MainWindow extends JFrame {
 	}
 	
 	private void initializeEditForm() {
-		editUserForm = new EditUserForm((UpdateViewListener)tableUser.getModel());
+		editUserForm = new EditUserForm();
 		notifyChange.addObserver(editUserForm);
 		
 		final GridBagConstraints constraints = new GridBagConstraints();

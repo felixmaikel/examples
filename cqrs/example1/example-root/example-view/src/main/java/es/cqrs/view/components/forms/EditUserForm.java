@@ -18,7 +18,6 @@ import es.cqrs.view.components.label.LabelBuilder;
 import es.cqrs.view.events.RemoveActionListener;
 import es.cqrs.view.events.RestoreActionListener;
 import es.cqrs.view.events.UpdateUserActionListener;
-import es.cqrs.view.events.UpdateViewListener;
 import es.cqrs.view.translate.Translate;
 import es.cqrs.view.translate.TranslateKey;
 
@@ -35,11 +34,9 @@ public class EditUserForm extends JPanel implements ViewObserver {
 	private JButton btnRestore;
 	private JPanel btnPanel;
 	private UserData userData;
-	private UpdateViewListener updateViewListener;
 	
-	public EditUserForm(final UpdateViewListener updateViewListener) {
+	public EditUserForm() {
 		super();
-		this.updateViewListener = updateViewListener;
 		initialize();
 	}
 	
