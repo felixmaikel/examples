@@ -8,6 +8,7 @@ import es.cqrs.kafka.consumer.BaseConsumer;
 import es.cqrs.kafka.consumer.UserAddConsumer;
 import es.cqrs.kafka.consumer.UserRemoveConsumer;
 import es.cqrs.kafka.consumer.UserUpdateConsumer;
+import es.cqrs.kafka.main.NotificationListener;
 import es.cqrs.kafka.manager.ConsumerManager;
 
 public class ConsumerManagerImpl implements ConsumerManager {
@@ -16,10 +17,10 @@ public class ConsumerManagerImpl implements ConsumerManager {
 	private List<BaseConsumer<String, UserData>> consumers;
 	private ThreadGroup consumerThreadGroup;
 	
-	public ConsumerManagerImpl() {
+	public ConsumerManagerImpl(final NotificationListener notification) {
 		consumers = new ArrayList<BaseConsumer<String, UserData>>();
 		consumerThreadGroup = new ThreadGroup(THREAD_GROUP_NAME);
-		loadConsumers();
+		loadConsumers(notification);
 	}
 	
 	public void startConsumers() {
@@ -29,9 +30,13 @@ public class ConsumerManagerImpl implements ConsumerManager {
 		}
 	}
 
-	private void loadConsumers() {
-		consumers.add(new UserAddConsumer());
-		consumers.add(new UserUpdateConsumer());
-		consumers.add(new UserRemoveConsumer());
+	private void loadConsumers(final NotificationListener notification) {
+		notification.writeNotification("Load consumers user data.");
+		consumers.add(new UserAddConsumer(notification));
+		notification.writeNotification("Load UserAddConsumer >>>> OK");
+		consumers.add(new UserUpdateConsumer(notification));
+		notification.writeNotification("Load UserUpdateConsumer >>>> OK");
+		consumers.add(new UserRemoveConsumer(notification));
+		notification.writeNotification("Load UserRemoveConsumer >>>> OK");
 	}
 }

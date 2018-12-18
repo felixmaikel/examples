@@ -48,4 +48,12 @@ public class UserData implements Serializable {
 	public String getEmail() {
 		return email;
 	}
+
+	@Override
+	public String toString() {
+		final StringBuilder builder = new StringBuilder(username).append(", ").append(name).append(", ").append(lastname)
+				.append(", ").append(email).append(", ").append(status.getText());
+		return builder.toString();
+	}
+	
 }

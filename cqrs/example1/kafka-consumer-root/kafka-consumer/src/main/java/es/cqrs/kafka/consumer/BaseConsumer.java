@@ -10,6 +10,7 @@ import org.apache.kafka.common.errors.WakeupException;
 
 import es.cqrs.core.actor.KafkaActor;
 import es.cqrs.core.exception.ApplicationException;
+import es.cqrs.kafka.main.NotificationListener;
 import es.cqrs.kafka.producer.NotifyProducer;
 
 public abstract class BaseConsumer<K, T> extends KafkaActor implements Runnable {
@@ -18,12 +19,14 @@ public abstract class BaseConsumer<K, T> extends KafkaActor implements Runnable 
 	protected KafkaConsumer<K, T> consumer;
 	protected String topic;
 	protected String name;
+	protected NotificationListener notification;
 	
-	protected BaseConsumer(final String topic, final String name) {
+	protected BaseConsumer(final String topic, final String name, final NotificationListener notification) {
 		super();
 		this.topic = topic;
 		this.name = name;
 		consumer = new KafkaConsumer<K, T>(properties);
+		this.notification = notification;
 	}
 
 	public void run() {
@@ -57,5 +60,6 @@ public abstract class BaseConsumer<K, T> extends KafkaActor implements Runnable 
 	private void notifyModelChange() {
 		final NotifyProducer producer = new NotifyProducer();
 		producer.send();
+		notification.writeNotification("Notification OK sending >>>> OK");
 	}
 }

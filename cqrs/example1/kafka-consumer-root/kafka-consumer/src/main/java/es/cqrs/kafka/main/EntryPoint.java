@@ -7,8 +7,8 @@ public class EntryPoint {
 
 	public static void main(String [] args) {
 	
-		System.out.println("Load consumers user data.");
-		final ConsumerManager consumerManager = new ConsumerManagerImpl();
+		final Console console = new Console();
+		final ConsumerManager consumerManager = new ConsumerManagerImpl(console);
 		consumerManager.startConsumers();
 	}
 	
