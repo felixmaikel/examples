@@ -7,19 +7,19 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.common.errors.WakeupException;
 
 import es.cqrs.core.model.UserData;
-import es.cqrs.kafka.dao.UserDataDao;
-import es.cqrs.kafka.dao.impl.UserDataDaoImpl;
 import es.cqrs.kafka.main.NotificationListener;
+import es.cqrs.kafka.services.UserService;
+import es.cqrs.kafka.services.impl.UserServiceImpl;
 
 public class UserAddConsumer extends BaseConsumer<String, UserData> {
 
 	private static final String CREATE_TOPIC ="create";
 	private static final String CONSUMER_NAME = "create-consumer";
-	private UserDataDao userDataDao;
+	private UserService userService;
 	
 	public UserAddConsumer(final NotificationListener notification) {
 		super(CREATE_TOPIC, CONSUMER_NAME, notification);
-		userDataDao = new UserDataDaoImpl();
+		userService = new UserServiceImpl();
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class UserAddConsumer extends BaseConsumer<String, UserData> {
 		for (Iterator<ConsumerRecord<String, UserData>> it = records.iterator(); it.hasNext();) {
 			final ConsumerRecord<String, UserData> record = (ConsumerRecord<String, UserData>) it.next();
 			final UserData userData = record.value();
-			userDataDao.add(userData);
+			userService.addUser(userData);
 			notification.writeNotification(log(userData));
 		}
 	}

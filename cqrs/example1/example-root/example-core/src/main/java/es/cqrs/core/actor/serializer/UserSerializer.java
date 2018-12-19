@@ -1,4 +1,4 @@
-package es.cqrs.repositories.command.serializer;
+package es.cqrs.core.actor.serializer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -14,8 +14,8 @@ public class UserDataDaoImpl extends BaseDao implements UserDataDao {
 
 	public void add(UserData userData) {
 		final Object [] parameters = new Object[]{userData.getUsername(), userData.getName(), userData.getLastname(),
-				userData.getEmail(), userData.getStatus().getId()};
-		final String query = "INSERT INTO USER_TB (USERNAME, NAME, LASTNAME, EMAIL, STATUS) VALUES (?,?,?,?,?)";
+				userData.getEmail(), userData.getStatus().getId(), userData.getPassword()};
+		final String query = "INSERT INTO USER_TB (USERNAME, NAME, LASTNAME, EMAIL, STATUS, PASSWORD) VALUES (?,?,?,?,?,?)";
 		execute(query, parameters);
 	}
 

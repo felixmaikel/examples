@@ -5,6 +5,7 @@ import java.util.List;
 
 import es.cqrs.core.model.UserData;
 import es.cqrs.kafka.consumer.BaseConsumer;
+import es.cqrs.kafka.consumer.EmailConsumer;
 import es.cqrs.kafka.consumer.UserAddConsumer;
 import es.cqrs.kafka.consumer.UserRemoveConsumer;
 import es.cqrs.kafka.consumer.UserUpdateConsumer;
@@ -38,5 +39,7 @@ public class ConsumerManagerImpl implements ConsumerManager {
 		notification.writeNotification("Load UserUpdateConsumer >>>> OK");
 		consumers.add(new UserRemoveConsumer(notification));
 		notification.writeNotification("Load UserRemoveConsumer >>>> OK");
+		consumers.add(new EmailConsumer(notification));
+		notification.writeNotification("Load EmailConsumer >>>> OK");
 	}
 }

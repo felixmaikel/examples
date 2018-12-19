@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 
 import es.cqrs.core.db.ConnectionManager;
@@ -32,17 +33,20 @@ public class DataBaseManagerImpl implements DataBaseManager{
 	}
 
 	private void createDbFile() {
-		try {
-			final String query = loadScript();
-			final Connection connection = connectionManager.getConnection();
-			final PreparedStatement statement = connection.prepareStatement(query);
-			statement.execute();
-		}catch(SQLException ex) {
-			throw new ApplicationException("Error to execute table sql file.", ex);
-		}
+		final List<String> queries = loadScript();
+		final Connection connection = connectionManager.getConnection();
+		queries.stream().forEach(query -> {
+			try {
+				final PreparedStatement statement = connection.prepareStatement(query);
+				statement.execute();
+			}catch(SQLException ex) {
+				throw new ApplicationException("Error to execute table sql file.", ex);
+			}
+		});
+		
 	}
 	
-	private String loadScript() {
+	private List<String> loadScript() {
 		try {
 			final Path path = Paths.get(getClass().getResource(SCHEMA_PATH).toURI());
 			final List<String> lines = Files.readAllLines(path);
@@ -52,7 +56,7 @@ public class DataBaseManagerImpl implements DataBaseManager{
 				stringBuilder.append(string);
 			}
 			
-			return stringBuilder.toString();
+			return Arrays.asList(stringBuilder.toString().split(";")) ;
 		}catch(URISyntaxException ex) {
 			throw new ApplicationException("Error to load data base script.", ex);
 		}catch(IOException ex) {

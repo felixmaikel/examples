@@ -10,6 +10,7 @@ public class UserData implements Serializable {
 	private String lastname;
 	private String email;
 	private StatusAccount status;
+	private String password;
 	
 	public UserData(final String username, final String name, final String lastname, final String email, final StatusAccount status) {
 		this(-1, username, name, lastname, email, status);
@@ -49,6 +50,14 @@ public class UserData implements Serializable {
 		return email;
 	}
 
+	public void setPassword(final String password) {
+		this.password = password;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder(username).append(", ").append(name).append(", ").append(lastname)
